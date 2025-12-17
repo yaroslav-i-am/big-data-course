@@ -1,5 +1,10 @@
 # ДЗ_1 Разработка контейнера на Hadoop и выполнение задания
 
+## Запуск
+1. `docker build -t hadoop-local . `
+2. `docker run -it --hostname=master hive-local`
+3. `./init-hadoop.sh`
+
 ## #1
 ```bash
 hdfs dfs -mkdir /createme
