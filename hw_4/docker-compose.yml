@@ -1,0 +1,47 @@
+services:
+  zookeeper:
+    image: zookeeper:3.9
+    container_name: zk
+    hostname: zk
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_TICK_TIME: 2000
+    networks:
+      - ch-net
+
+  ch1:
+    image: clickhouse/clickhouse-server:latest
+    container_name: ch1
+    hostname: ch1
+    ports:
+      - "8123:8123"   # HTTP (DBeaver)
+      - "9000:9000"   # Native
+    volumes:
+      - ./ch-common/config.d/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml:ro
+      - ./ch-common/users.d:/etc/clickhouse-server/users.d:ro
+      - ./ch1/config.d/macros.xml:/etc/clickhouse-server/config.d/macros.xml:ro
+    depends_on:
+      - zookeeper
+    networks:
+      - ch-net
+
+  ch2:
+    image: clickhouse/clickhouse-server:latest
+    container_name: ch2
+    hostname: ch2
+    ports:
+      - "8124:8123"
+      - "9001:9000"
+    volumes:
+      - ./ch-common/config.d/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml:ro
+      - ./ch-common/users.d:/etc/clickhouse-server/users.d:ro
+      - ./ch2/config.d/macros.xml:/etc/clickhouse-server/config.d/macros.xml:ro
+    depends_on:
+      - zookeeper
+    networks:
+      - ch-net
+
+networks:
+  ch-net:
+    driver: bridge

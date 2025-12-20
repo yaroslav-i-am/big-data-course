@@ -1,0 +1,23 @@
+<clickhouse>
+  <zookeeper>
+    <node>
+      <host>zk</host>
+      <port>2181</port>
+    </node>
+  </zookeeper>
+
+  <remote_servers>
+    <lab_cluster>
+      <shard>
+        <replica>
+          <host>ch1</host>
+          <port>9000</port>
+        </replica>
+        <replica>
+          <host>ch2</host>
+          <port>9000</port>
+        </replica>
+      </shard>
+    </lab_cluster>
+  </remote_servers>
+</clickhouse>
